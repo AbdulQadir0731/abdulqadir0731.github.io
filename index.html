@@ -48,23 +48,39 @@
                 const post = data.posts[0];
                 const baseUrl = 'https://api-v1.vooconnect.com:9452/uploads';
 
-                // Update <meta property="og:title">
+                // Check and log the current <meta property="og:title">
                 let ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) {
+                    console.log('Current og:title:', ogTitle.content);
+                } else {
+                    console.log('og:title meta tag not found.');
+                }
+
+                // Update <meta property="og:title">
                 if (!ogTitle) {
                     ogTitle = document.createElement('meta');
                     ogTitle.setAttribute('property', 'og:title');
                     document.head.appendChild(ogTitle);
                 }
                 ogTitle.content = post.title || 'Default Title';
+                console.log('Updated og:title:', ogTitle.content);
+
+                // Check and log the current <meta property="og:image">
+                let ogImage = document.querySelector('meta[property="og:image"]');
+                if (ogImage) {
+                    console.log('Current og:image:', ogImage.content);
+                } else {
+                    console.log('og:image meta tag not found.');
+                }
 
                 // Update <meta property="og:image">
-                let ogImage = document.querySelector('meta[property="og:image"]');
                 if (!ogImage) {
                     ogImage = document.createElement('meta');
                     ogImage.setAttribute('property', 'og:image');
                     document.head.appendChild(ogImage);
                 }
                 ogImage.content = baseUrl + post.thumbnail_url;
+                console.log('Updated og:image:', ogImage.content);
 
                 console.log('Meta tags updated.');
             } else {
