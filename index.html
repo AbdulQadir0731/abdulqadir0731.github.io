@@ -65,22 +65,28 @@
                 ogTitle.content = post.title || 'Default Title';
                 console.log('Updated og:title:', ogTitle.content);
 
-                // Check and log the current <meta property="og:image">
+                // Initialize <meta property="og:image" content to empty string>
                 let ogImage = document.querySelector('meta[property="og:image"]');
                 if (ogImage) {
-                    console.log('Current og:image:', ogImage.content);
+                    ogImage.content = ''; // Set to empty string to simulate null
+                    console.log('og:image initially set to:', ogImage.content);
                 } else {
-                    console.log('og:image meta tag not found.');
-                }
-
-                // Update <meta property="og:image">
-                if (!ogImage) {
                     ogImage = document.createElement('meta');
                     ogImage.setAttribute('property', 'og:image');
                     document.head.appendChild(ogImage);
+                    console.log('og:image meta tag created.');
                 }
-                ogImage.content = baseUrl + post.thumbnail_url;
+
+                // Update <meta property="og:image">
+                const newImageUrl = baseUrl + post.thumbnail_url;
+                ogImage.content = newImageUrl;
                 console.log('Updated og:image:', ogImage.content);
+
+                // Verify if the image URL is correct
+                const img = new Image();
+                img.onload = () => console.log('Image loaded successfully:', newImageUrl);
+                img.onerror = () => console.error('Image failed to load:', newImageUrl);
+                img.src = newImageUrl;
 
                 console.log('Meta tags updated.');
             } else {
